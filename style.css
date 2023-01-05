@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+  background-color: #fff;
+  font-size: 12px;
+}
+label {
+  padding: 0.25rem;
+}
+.flex-attr {
+  width: 100%;
+  margin-bottom: 0.125rem;
+  padding: 0;
+  border: #ccc solid 0.5px;
+}
+.flex {
+  display: flex;
+  background-color: #efefef;
+  outline: 5px dashed #9f9f9f;
+  transition: width 0.3s, height 0.3s;
+}
+.flex-props {
+  float: left;
+  width: 90px;
+  vertical-align: top;
+}
+.flex-container {
+  float: right;
+  padding: 50px 25px;
+  width: 1024px;
+  background-color: #aaa;
+}
+.items-container {
+  float: left;
+  width: 230px;
+  background-color: #f2f2f2;
+}
+
+.item-props {
+  float: left;
+  width: 50%;
+}
+.item-prop {
+  float: left;
+  box-sizing: border-box;
+  border: none;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 12px;
+  text-align: center;
+  background-color: transparent;
+}
+.flex-item {
+  position: relative;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+.w,
+.h {
+  position: absolute;
+  left: 0;
+  color: red;
+}
+.h {
+  top: 20px;
+  color: blue;
+}
+.item-prop:nth-of-type(1),
+.item-prop:nth-of-type(2) {
+  width: 50%;
+  opacity: 0.8;
+}
+.item-prop:nth-of-type(3),
+.item-prop:nth-of-type(4),
+.item-prop:nth-of-type(5) {
+  width: 33.33333%;
+  opacity: 0.8;
+}
+.item-prop:nth-of-type(6) {
+  width: 100%;
+  outline: 1px solid #f2f2f2;
+}
+
+.item-props:nth-child(10n + 1),
+.flex-item:nth-child(10n + 1) {
+  color: hsl(37, 26%, 80%);
+  background-color: #c6b69d;
+}
+.item-props:nth-child(10n + 2),
+.flex-item:nth-child(10n + 2) {
+  color: hsl(52, 14%, 53%);
+  background-color: #7c785d;
+}
+.item-props:nth-child(10n + 3),
+.flex-item:nth-child(10n + 3) {
+  color: hsl(40, 19%, 65%);
+  background-color: #a19275;
+}
+.item-props:nth-child(10n + 4),
+.flex-item:nth-child(10n + 4) {
+  color: hsl(46, 32%, 85%);
+  background-color: #d4cbac;
+}
+.item-props:nth-child(10n + 5),
+.flex-item:nth-child(10n + 5) {
+  color: hsl(240, 1%, 68%);
+  background-color: #949496;
+}
+.item-props:nth-child(10n + 6),
+.flex-item:nth-child(10n + 6) {
+  color: hsl(46, 63%, 89%);
+  background-color: #ebdba7;
+}
+.item-props:nth-child(10n + 7),
+.flex-item:nth-child(10n + 7) {
+  color: hsl(38, 11%, 96%);
+  background-color: #dfdcd7;
+}
+.item-props:nth-child(10n + 8),
+.flex-item:nth-child(10n + 8) {
+  color: hsl(324, 25%, 70%);
+  background-color: #b27f9e;
+}
+.item-props:nth-child(10n + 9),
+.flex-item:nth-child(10n + 9) {
+  color: hsl(88, 8%, 61%);
+  background-color: #828b78;
+}
+.item-props:nth-child(10n),
+.flex-item:nth-child(10n) {
+  color: hsl(25, 40%, 60%);
+  background-color: #b1764c;
+}

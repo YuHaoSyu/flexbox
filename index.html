@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLEX</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="flex-props">
+      <select class="flex-attr" name="width">
+        <option value="width" disabled>width</option>
+        <option value="auto" selected>auto</option>
+        <option value="25%">w:25%</option>
+        <option value="50%">w:50%</option>
+        <option value="75%">w:75%</option>
+        <option value="100%">w:100%</option>
+      </select>
+
+      <select class="flex-attr" name="height">
+        <option value="height" disabled>height</option>
+        <option value="auto" selected>auto</option>
+        <option value="25vh">h:25vh</option>
+        <option value="50vh">h:50vh</option>
+        <option value="75vh">h:75vh</option>
+        <option value="100vh">h:100vh</option>
+      </select>
+
+      <select class="flex-attr" name="flexDirection">
+        <option value="flex-direction" disabled>flex-direction</option>
+        <option value="row" selected>row</option>
+        <option value="column">column</option>
+        <option value="row-reverse">row-reverse</option>
+        <option value="column-reverse">column-reverse</option>
+      </select>
+
+      <select class="flex-attr" name="flexWrap">
+        <option value="flex-wrap" disabled>flex-wrap</option>
+        <option value="nowrap" selected>nowrap</option>
+        <option value="wrap">wrap</option>
+        <option value="wrap-reverse">wrap-reverse</option>
+      </select>
+
+      <select class="flex-attr" name="justifyContent">
+        <option value="justify-content" disabled>justify-content</option>
+        <option value="flex-start" selected>J: flex-start</option>
+        <option value="center">J: center</option>
+        <option value="flex-end">J: flex-end</option>
+        <option value="space-between">J: between</option>
+        <option value="space-around">J: around</option>
+        <option value="space-evenly">J: evenly</option>
+      </select>
+
+      <select class="flex-attr" name="alignContent" disabled>
+        <option value="align-content" disabled selected>align-content</option>
+        <option value="stretch">A: stretch</option>
+        <option value="flex-start">A: flex-start</option>
+        <option value="center">A: center</option>
+        <option value="flex-end">A: flex-end</option>
+        <option value="space-between">A: between</option>
+        <option value="space-around">A: around</option>
+        <option value="space-evenly">A: evenly</option>
+      </select>
+
+      <select class="flex-attr" name="alignItems">
+        <option value="align-items" disabled>align-items</option>
+        <option value="stretch" selected>a: stretch</option>
+        <option value="flex-start">a: flex-start</option>
+        <option value="center">a: center</option>
+        <option value="flex-end">a: flex-end</option>
+        <option value="baseline">a: baseline</option>
+      </select>
+
+      <input class="flex-attr" id="addItem" type="button" value="add" />
+    </div>
+
+    <div class="items-container"></div>
+    <div class="flex-container">
+      <div class="flex"></div>
+    </div>
+
+    <template id="itemProps">
+      <div class="item-props">
+        <input class="item-prop" type="text" name="width" value="100" />
+        <input class="item-prop" type="text" name="height" value="100" />
+        <input class="item-prop" type="text" name="flexGrow" value="0" />
+        <input class="item-prop" type="text" name="flexShrink" value="1" />
+        <input class="item-prop" type="text" name="flexBasis" value="auto" />
+        <input class="item-prop del" type="button" value="del" />
+      </div>
+    </template>
+
+    <template id="item">
+      <div class="flex-item" style="width: 100px; height: 100px">
+        <span class="w">100</span><span class="h">100</span>
+      </div>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
