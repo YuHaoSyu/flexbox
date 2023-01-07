@@ -1,79 +1,113 @@
-function $(el) {
-  return document.querySelector(el)
-}
-
-const flex = $('.flex')
-const items = $('.items-container')
-document.querySelectorAll('select').forEach(el => {
-  el.addEventListener('change', function (e) {
-    flex.style[this.name] = this.value
-
-    if (['flexWrap', 'height'].includes(el.name)) {
-      const alignContent = $('[name=alignContent]')
-      const isNowrapping = ['nowrap'].includes(this.value)
-      alignContent.disabled = isNowrapping
-
-      alignContent.value = isNowrapping ? 'align-content' : 'stretch'
+function $(target) {
+  const el = document.querySelector(target)
+  return {
+    on(evt, handler, option) {
+      el.addEventListener(evt, handler, option)
+      return $(target)
+    },
+    one(evt, handler, option) {
+      el.addEventListener(evt, handler, { once: true, ...option })
+      return $(target)
     }
-  })
-})
+  }
+}
 
-const add = document.getElementById('addItem')
-const itemTemp = document.getElementById('item')
-const itemPropTemp = document.getElementById('itemProps')
-add.addEventListener('click', function () {
-  const itemClone = itemTemp.content.cloneNode(true)
-  const itemPropClone = itemPropTemp.content.cloneNode(true)
-  flex.appendChild(itemClone)
-  items.appendChild(itemPropClone)
-})
-
-items.addEventListener('change', function ({ target }) {
-  let { name, value } = target
-  value = value ? value : 0
-  const actItem = target.parentNode
-  const activeItemIndex = Array.prototype.indexOf.call(items.children, actItem)
-  const flexItem = flex.children[activeItemIndex]
-
-  const unitProp = ['width', 'height', 'flexBasis']
-  removeTextNodes(flexItem)
-  setTimeout(() => updateSize(flexItem), 400)
-
-  unitProp.forEach(prop => {
-    const { value: v } = actItem.querySelector(`[name=${prop}]`)
-
-    if (isNaN(v) && v !== 'auto') {
-      flexItem.append(v)
+const containerStyle = document.getElementById('flex-container-style')
+const container = document.querySelector('.flex-container')
+function changeHangler(el) {
+  const style = new FormData(this)
+  let isNoWrap = false
+  for (const [att, value] of style) {
+    // 修改 flexbox 文字
+    if (att === 'textContent' && value) {
+      const child = el.childNodes
+      child.forEach(element => {
+        element.nodeType === 3 && element.remove()
+      })
+      el.prepend(value)
+      continue
     }
-  })
-  if (isNaN(value)) {
-    flexItem.style[name] = ''
-    return
-  }
-  if (unitProp.includes(name)) {
-    value += 'px'
-  }
-  flexItem.style[name] = value
-})
 
-items.addEventListener('click', function ({ target }) {
-  const actItem = target.parentNode
-  const activeItemIndex = Array.prototype.indexOf.call(items.children, actItem)
-  if (target.classList.contains('del')) {
-    flex.removeChild(flex.children[activeItemIndex])
-    this.removeChild(this.children[activeItemIndex])
-  }
-})
+    if (value === 'nowrap') {
+      isNoWrap = true
+    }
 
-function removeTextNodes(target) {
-  Array.from(target.childNodes).forEach(child =>
-    child.nodeType === 3 ? target.removeChild(child) : removeTextNodes(child)
-  )
+    el.style[att] = value
+  }
+  if (isNoWrap) {
+    el.style.alignContent = 'stretch'
+    const alignContent = document.querySelector('[name="alignContent"]')
+    if (alignContent.value !== 'stretch') {
+      alignContent.value = 'stretch'
+      containerStyle.dispatchEvent(new Event('change'))
+    }
+  }
 }
 
-function updateSize(item) {
-  if (item.offsetWidth && item.offsetHeight) {
-    item.querySelector('.w').textContent = item.offsetWidth
-    item.querySelector('.h').textContent = item.offsetHeight
+containerStyle.addEventListener('change', function (e) {
+  changeHangler.call(this, container)
+})
+$('body').on('mousedown', function ({ target }) {
+  if (target.type === 'text') {
+    target.value = ''
+    let form = target
+    while (form.nodeName !== 'FORM') {
+      form = form.parentElement
+    }
+    form.dispatchEvent(new Event('change'))
+  }
+  if (target.classList.contains('flex-box')) {
+    const textarea = target.querySelector('textarea')
+    textarea.style.display = 'initial'
+
+    $('textarea').one('blur', function (e) {
+      this.style.display = ''
+    })
+    setTimeout(() => textarea.focus())
+  }
+})
+containerStyle.dispatchEvent(new Event('change'))
+
+function randBetween(a, b = 0) {
+  const min = Math.min(a, b)
+  return Math.floor(Math.random() * (Math.max(a, b) - min + 1)) + min
+}
+
+class Box {
+  static template = document.getElementById('flex-box')
+  constructor() {
+    const template = Box.template.content.cloneNode(true)
+    const config = template.firstElementChild.firstElementChild
+
+    config
+      .querySelector('[name="delete"]')
+      .addEventListener('click', this.delete, { once: true })
+
+    config.addEventListener('change', this.changeHandler)
+    container.appendChild(template)
+    const hue = randBetween(359)
+    config.parentElement.style.backgroundImage = `radial-gradient(at 75% 25%, hsl(${hue}, 100%, 85%) 0%, hsl(${hue}, 100%, 70%) 50%, hsl(${hue}, 100%, 65%) 65%, hsl(${hue}, 100%, 70%) 80%)`
+    config.parentElement.style.boxShadow = `inset -15px 15px 15px -15px hsl(${hue}, 100%, 70%)`
+    config.dispatchEvent(new Event('change'))
+  }
+  delete(e) {
+    if (e.target.name === 'delete') {
+      let flexBox = e.target
+      while (!flexBox.classList.contains('flex-box')) {
+        flexBox = flexBox.parentElement
+      }
+      flexBox.removeEventListener('change', this.changeHandler)
+      flexBox.remove()
+    }
+  }
+  changeHandler(e) {
+    changeHangler.call(this, this.parentElement)
   }
 }
+
+containerStyle.addEventListener('click', function (e) {
+  const { name } = e.target
+  if (name === 'add') {
+    new Box()
+  }
+})
